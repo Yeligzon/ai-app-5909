@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LingoPulse - Gamified Language Mastery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="src/css/style.css">
+</head>
+<body>
+  <div id="app" class="app-container">
+    <!-- TOP BAR NAVIGATION -->
+    <header class="top-nav">
+      <div class="nav-content">
+        <!-- Course Selector Dropdown -->
+        <div class="course-selector-wrapper">
+          <button class="course-selector-btn" id="courseSelectorBtn">
+            <span class="flag-icon" id="currentFlag">🇬🇧</span>
+            <span class="course-name" id="currentCourseName">Inglés</span>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </button>
+          
+          <div class="course-dropdown hidden" id="courseDropdown">
+            <div class="course-option active" data-lang="en" data-flag="🇬🇧" data-name="Inglés">
+              <span class="flag-icon">🇬🇧</span>
+              <span>Inglés</span>
+            </div>
+            <div class="course-option" data-lang="es" data-flag="🇪🇸" data-name="Español">
+              <span class="flag-icon">🇪🇸</span>
+              <span>Español</span>
+            </div>
+            <div class="course-option" data-lang="fr" data-flag="🇫🇷" data-name="Francés">
+              <span class="flag-icon">🇫🇷</span>
+              <span>Francés</span>
+            </div>
+            <div class="course-option" data-lang="ja" data-flag="🇯🇵" data-name="Japonés">
+              <span class="flag-icon">🇯🇵</span>
+              <span>Japonés</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Stats & Level Badge -->
+        <div class="stats-group">
+          <div class="stat-pill level-pill" title="Nivel del Usuario">
+            <span class="stat-icon">⭐</span>
+            <span class="level-label">Niv. <span id="userLevelNum">1</span></span>
+          </div>
+          <div class="stat-pill streak-pill" title="Racha actual de días">
+            <span class="stat-icon">🔥</span>
+            <span id="streakCount" class="stat-value">3</span>
+          </div>
+          <div class="stat-pill gems-pill" title="Gemas acumuladas">
+            <span class="stat-icon">💎</span>
+            <span id="gemCount" class="stat-value">450</span>
+          </div>
+          <div class="stat-pill hearts-pill" id="heartsWidget" title="Vidas disponibles">
+            <span class="stat-icon">❤️</span>
+            <span id="heartCount" class="stat-value">5</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN APP CONTENT -->
+    <main class="main-layout">
+      <!-- SIDEBAR NAVIGATION -->
+      <nav class="sidebar">
+        <div class="brand-logo">
+          <span class="brand-icon">⚡</span>
+          <span class="brand-text">LingoPulse</span>
+        </div>
+        
+        <div class="nav-menu">
+          <button class="nav-btn active" data-target="pathView">
+            <i class="fa-solid fa-house nav-icon"></i>
+            <span class="nav-label">Aprender</span>
+          </button>
+          <button class="nav-btn" data-target="questsView">
+            <i class="fa-solid fa-scroll nav-icon"></i>
+            <span class="nav-label">Misiones</span>
+          </button>
+          <button class="nav-btn" data-target="leaderboardView">
+            <i class="fa-solid fa-trophy nav-icon"></i>
+            <span class="nav-label">Liga</span>
+          </button>
+          <button class="nav-btn" data-target="shopView">
+            <i class="fa-solid fa-store nav-icon"></i>
+            <span class="nav-label">Tienda</span>
+          </button>
+          <button class="nav-btn" data-target="profileView">
+            <i class="fa-solid fa-user nav-icon"></i>
+            <span class="nav-label">Perfil</span>
+          </button>
+        </div>
+
+        <!-- Mini Level Bar inside Sidebar -->
+        <div class="sidebar-level-card">
+          <div class="level-card-header">
+            <span>Progreso de Nivel</span>
+            <strong id="sidebarLevelText">Nivel 1</strong>
+          </div>
+          <div class="mini-progress-bar">
+            <div class="mini-progress-fill" id="levelProgressFill" style="width: 20%;"></div>
+          </div>
+          <span class="xp-next-info" id="xpNextText">20 / 100 XP</span>
+        </div>
+      </nav>
+
+      <!-- VIEW PANELS -->
+      <section class="content-area">
+        <!-- 1. LEARNING PATH MAP VIEW -->
+        <div id="pathView" class="view-panel active">
+          <!-- Unit Selector Tabs -->
+          <div class="unit-tabs" id="unitTabs">
+            <button class="unit-tab active" data-unit="1">Unidad 1</button>
+            <button class="unit-tab" data-unit="2">Unidad 2</button>
+            <button class="unit-tab" data-unit="3">Unidad 3</button>
+          </div>
+
+          <div class="unit-banner">
+            <div class="unit-info">
+              <span class="unit-subtitle" id="unitNumber">SECCIÓN 1</span>
+              <h2 class="unit-title" id="unitTitle">Fundamentos Esenciales</h2>
+              <p class="unit-desc" id="unitDesc">Aprende saludos, frases clave y vocabulario de inicio.</p>
+            </div>
+            <button class="btn-secondary" id="guidebookBtn">
+              <i class="fa-solid fa-book-open"></i> Guía
+            </button>
+          </div>
+
+          <div class="path-tree-wrapper">
+            <div class="path-tree" id="pathTree">
+              <!-- Path Map Nodes Injected Dynamically via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. DAILY QUESTS VIEW -->
+        <div id="questsView" class="view-panel hidden">
+          <div class="panel-header">
+            <h2>📜 Misiones Diarias</h2>
+            <p>Completa los desafíos para ganar gemas y puntos XP adicionales.</p>
+          </div>
+          <div class="quests-list" id="questsList">
+            <!-- Quests Injected Dynamic JS -->
+          </div>
+        </div>
+
+        <!-- 3. LEADERBOARD VIEW -->
+        <div id="leaderboardView" class="view-panel hidden">
+          <div class="panel-header">
+            <h2>🏆 Liga Esmeralda</h2>
+            <p>Compite semanalmente. Los 5 mejores avanzan a la División Diamante.</p>
+          </div>
+          <div class="leaderboard-card">
+            <div class="leaderboard-list" id="leaderboardList">
+              <!-- Dynamic Ranking Rows Injected via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. SHOP VIEW -->
+        <div id="shopView" class="view-panel hidden">
+          <div class="panel-header">
+            <h2>🛒 Tienda de Potenciadores</h2>
+            <p>Canjea tus gemas ganadas por recursos y ventajas exclusivas.</p>
+          </div>
+          <div class="shop-grid">
+            <div class="shop-card">
+              <div class="shop-icon">❤️</div>
+              <div class="shop-details">
+                <h3>Recargar Vidas</h3>
+                <p>Restaura al instante tus vidas al máximo (5 corazones).</p>
+              </div>
+              <button class="btn-3d btn-gem" id="buyHeartsBtn">
+                <span>💎 100</span>
+              </button>
+            </div>
+
+            <div class="shop-card">
+              <div class="shop-icon">🧊</div>
+              <div class="shop-details">
+                <h3>Protector de Racha</h3>
+                <p>Mantiene tu racha intacta si no practicas durante 1 día.</p>
+              </div>
+              <button class="btn-3d btn-gem" id="buyFreezeBtn">
+                <span>💎 200</span>
+              </button>
+            </div>
+
+            <div class="shop-card">
+              <div class="shop-icon">⚡</div>
+              <div class="shop-details">
+                <h3>Boost Doble XP (15 min)</h3>
+                <p>Gana el doble de puntos de experiencia en cada lección completada.</p>
+              </div>
+              <button class="btn-3d btn-gem" id="buyBoostBtn">
+                <span>💎 150</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. USER PROFILE VIEW -->
+        <div id="profileView" class="view-panel hidden">
+          <div class="profile-card">
+            <div class="avatar-circle" id="profileAvatar">🦉</div>
+            <div class="profile-meta">
+              <h2 id="profileName">Estudiante Lingo</h2>
+              <p id="profileJoinedDate">Nivel de Idioma: <strong id="profileLevelDisplay">Nivel 1</strong></p>
+            </div>
+          </div>
+
+          <h3 class="section-heading">Estadísticas Principales</h3>
+          <div class="stats-grid">
+            <div class="profile-stat-box">
+              <span class="stat-big-icon">⚡</span>
+              <div>
+                <strong id="totalXpCount">1,240</strong>
+                <span>Puntos XP Totales</span>
+              </div>
+            </div>
+            <div class="profile-stat-box">
+              <span class="stat-big-icon">🔥</span>
+              <div>
+                <strong id="profileStreak">3</strong>
+                <span>Mejor Racha de Días</span>
+              </div>
+            </div>
+            <div class="profile-stat-box">
+              <span class="stat-big-icon">🥇</span>
+              <div>
+                <strong id="profileRank">#3</strong>
+                <span>Posición en Liga</span>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="section-heading">Logros y Medallas</h3>
+          <div class="achievements-list" id="achievementsList">
+            <!-- Achievements Injected via JS -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- INTERACTIVE LESSON MODAL OVERLAY -->
+    <div id="lessonModal" class="lesson-modal hidden">
+      <div class="lesson-header">
+        <button class="btn-close" id="closeLessonBtn">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="lessonProgressBar" style="width: 0%;"></div>
+        </div>
+        <div class="hearts-live">
+          ❤️ <span id="lessonHeartCount">5</span>
+        </div>
+      </div>
+
+      <div class="lesson-body" id="lessonBody">
+        <!-- Current Question Screen Injected Dynamically -->
+      </div>
+
+      <div class="lesson-footer" id="lessonFooter">
+        <div class="feedback-banner hidden" id="feedbackBanner">
+          <div class="feedback-icon" id="feedbackIcon">✓</div>
+          <div class="feedback-text">
+            <h4 id="feedbackTitle">¡Excelente!</h4>
+            <p id="feedbackMessage">Respuesta correcta</p>
+          </div>
+        </div>
+        <button class="btn-3d btn-primary" id="actionBtn" disabled>COMPROBAR</button>
+      </div>
+    </div>
+
+    <!-- CANVAS PARTICLES LAYER FOR LESSON CELEBRATIONS -->
+    <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+  </div>
+
+  <script src="src/js/script.js"></script>
+</body>
+</html>
